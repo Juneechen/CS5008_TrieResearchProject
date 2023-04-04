@@ -2,12 +2,14 @@
 #include <unordered_map>
 using namespace std;
 
-class TrieNode {
+class Trie {
 public:
-    TrieNode() : isKey(false), children(10) {}
-
+    Trie() {
+        root = new TrieNode();
+    }
+    
     void insert(string word) {
-        TrieNode* curr = this;
+        TrieNode* curr = root;
         for (char c : word) {
             if (curr->children.find(c) == curr->children.end()) {
                 curr->children[c] = new TrieNode();
@@ -16,9 +18,9 @@ public:
         }
         curr->isKey = true;
     }
-
+    
     bool search(string word) {
-        TrieNode* curr = this;
+        TrieNode* curr = root;
         for (char c : word) {
             if (curr->children.find(c) == curr->children.end()) {
                 return false;
@@ -29,7 +31,7 @@ public:
     }
     
     bool startsWith(string prefix) {
-        TrieNode* curr = this;
+        TrieNode* curr = root;
         for (char c : prefix) {
             if (curr->children.find(c) == curr->children.end()) {
                 return false;
@@ -40,28 +42,11 @@ public:
     }
 
 private:
-    bool isKey;
-    unordered_map<char, TrieNode*> children;
-};
+    struct TrieNode {
+        bool isKey;
+        unordered_map<char, TrieNode*> children;
+        TrieNode() : isKey(false), children(10) {}
+    };
 
-class Trie {
-public:
-    Trie() {
-        root = new TrieNode();
-    }
-    
-    void insert(string word) {
-        root->insert(word);
-    }
-    
-    bool search(string word) {
-        return root->search(word);
-    }
-    
-    bool startsWith(string prefix) {
-        return root->startsWith(prefix);
-    }
-
-private:
     TrieNode* root;
 };
