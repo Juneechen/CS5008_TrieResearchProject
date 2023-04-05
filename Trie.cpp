@@ -8,6 +8,10 @@ public:
         root = new TrieNode();
         totalWords = 0;
     }
+
+    ~Trie() {
+        delete root;
+    }
     
     void insert(string word) {
         TrieNode* curr = root;
@@ -18,7 +22,7 @@ public:
             curr = curr->children[c];
             
         }
-        
+
         if (!curr->isKey) {
             totalWords++;
             curr->isKey = true;
@@ -48,6 +52,8 @@ public:
         return true;
     }
 
+    
+
 private:
     struct TrieNode {
         bool isKey;
@@ -55,6 +61,12 @@ private:
         unordered_map<char, TrieNode*> children;
 
         TrieNode() : isKey(false), freq(0), children(10) {}
+
+        ~TrieNode() {
+            for (auto& each : this->children) {
+                delete each.second;
+            }
+        }
     };
 
     TrieNode* root;
