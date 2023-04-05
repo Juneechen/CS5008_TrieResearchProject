@@ -11,7 +11,17 @@ This report looks at the fundamental concepts of the Trie data structure and its
 Make sure to include the following:
 - Time Complexity
 - Space Complexity
-- General analysis of the algorithm/datastructure
+- General analysis of the algorithm/datastructure    
+
+A Trie is a type of k-nary tree with one root node, which has a colloection of children nodes, each represents a character with its own children. Each node has a boolean value indicating whether this character is the end of a word. The time and space complexity of Trie will be discussed in this section, with the results presented in the following chart representing their Big O values.  
+| Operation | Time |
+| :-- | :-- | 
+| insert | $O(1)$ |
+| contains / search | $O(1)$ |
+| startWith / prefix search | $O(N+L)$ |
+| print | $O(N)$ |
+
+The above complexity is for Tries using fixed size arrays to represent children nodes. The constant runtime is actually $O(L)$ where `L` is the length of the string. Since the `L` is not growing with the number of strings in the Trie, these operations can be said to have $O(1)$ constant runtime.
 
 ## Empirical Analysis
 - What is the empirical analysis?
@@ -22,7 +32,18 @@ Make sure to include the following:
 - What is the algorithm/datastructure used for?
 - Provide specific examples
 - Why is it useful / used in that field area?
-- Make sure to provide sources for your information.
+- Make sure to provide sources for your information. 
+
+Trie is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. Triesa allows for constant time lookup and insertion, but every single character has to be traversed through. That being said, in some cases, BSTs or Hash Table may perform better in those operation, as the entire string can be accessed altogether once found.  
+
+However, the greatest advantage of Tries is that they are capable of efficiently perform various string operations not supported by its alternatives. For instance, tries allows for look up by prefix, which cannot be easily achieved with hash tables, in which words are stored as a whole intead of character by character.
+
+The most common application of Tries is autocomplete. Additionaly, a priority value can be stored with each string to allow for suggesting the most often used strings before other options. The Google search bar gives a list of recommendation as we type, and that can be theoretically done with the following steps:  
+- store billions of strings in a Trie
+- associate a priority value that gets updated oftern to each string
+- call a method that return strings with a given prefix as we type
+- display the 10 strings with top priority, which can be optimized by using a priority queue
+
 
 
 ## Implementation
@@ -33,22 +54,19 @@ Make sure to include the following:
 - If you found code in another language, and then implemented in your own language that is fine - but make sure to document that.
 
 ### Language
-My implementation of Trie is written in C++, as my initial implememtation was relatively simple and I wanted to take up the challenge of trying out a language I'm not familiar with. As my Trie implementation is used to store Strings, the `<string>` librarie is used. The initial challenge I faced was learning the C++ syntax. It's quite different from C in syntax and the support of class and objects. Below is a snippet of the `TrieNode` struct declared in my implementation:
+My implementation of Trie is written in C++, as my initial implememtation was relatively simple and I wanted to take up the challenge of trying out a language I'm not familiar with. As my Trie implementation is used to store Strings, the `<string>` library is used. The initial challenge I faced was learning the C++ syntax. It's quite different from C in syntax and the support of class and objects. Below is an example of the `constructor` for `TrieNode` struct:
 ```
-struct TrieNode {
-        bool isKey;
-        unordered_map<char, TrieNode*> children;
-
-        TrieNode() : isKey(false), children(10) {} // constructor
-    };
+    TrieNode() : isKey(false), children(10) {} // constructor
 ```
-The `constructor` marked in the above code shows a special syntax called an initialization list, which is used in the constructor of a class or struct to initialize member variables before the body of the constructor is executed.   
+The above code shows a special syntax called an initialization list, which is used in the constructor of a class or struct to initialize member variables before the body of the constructor is executed.   
 
 
 ### Key Implementation Decisions
-A Trie is a type of k-nary tree where each character in a word stored in the Trie can be represented by a node with a collection of children represent the next character in that word. The structure for representing the collection of children is one of the most important decisions in implemention a Trie, as it greatly affects the operation performance and space required in handling large data set with Trie.   
+ 
 
-One way of implementing the children collection is with Arrays, which are fixed-sized in C++. For a Trie to support all ASCII charaters, the array should be declared to have size 128. For a Trie to support only English alphabetic character, the array should be declared to have size 26. Below is an example an array-based `TrieNode` from the [Introduction_to_Trie] from GeeksForGeeks:
+The underlaying structure for mapping a node represeing one char to its collection of children is one of the most important decisions in implemention a Trie, as it greatly affects the operation performance and space required in handling large data set with Trie.   
+
+One way of implementing the children collection is with Arrays, which are fixed-sized in C++. For a Trie to support all ASCII charaters, the array should be declared to have size 128. For a Trie to support only lower-case English alphabets, the array should be declared to have size 26. Below is an example an array-based `TrieNode` from the [Introduction_to_Trie] from GeeksForGeeks:
 ```
 struct TrieNode {
     struct TrieNode* children[ALPHABET_SIZE];
@@ -64,7 +82,9 @@ The value of the character itself is omited from the `TrieNode` as it is represe
 ```
 One disadvantage of using a fixed size array in a Trie to represent children is that it can waste memory when the Trie is sparse, and take up too much memory when a large set of vocabularies is stored, as every single charater/node will have a pre-allocated array to accommodate the maximum number of possible children. One advantage of using arrays is that it will be easy to retrieve all stored word in sorted alphabetical order.
 
-I studied and learned from the GeeksForGeeks, but for the purpose of exercise, I explored other options for representing children nodes, and implemented my TrieNode differenly using a the C++ built-in hashmap.
+I explored other options for representing children nodes
+
+I studied and learned from the GeeksForGeeks, adn for the purpose of exercise, I explored other options for representing children nodes. I tried implementing my TrieNode differenly using a the C++ built-in hashmap
 
 
 ### Main Functionalities Code Walk-through
@@ -77,7 +97,9 @@ As I finished implementing the basic operations that should be supported by a Tr
 - What did you learn?
 
 ## Reference
-- 
+- https://brilliant.org/wiki/tries/
+- https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/TST.html
+- https://www.toptal.com/java/the-trie-a-neglected-data-structure
 
 
 <!-- auto references -->
