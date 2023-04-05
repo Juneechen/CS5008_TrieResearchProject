@@ -6,6 +6,7 @@ class Trie {
 public:
     Trie() {
         root = new TrieNode();
+        totalWords = 0;
     }
     
     void insert(string word) {
@@ -15,8 +16,14 @@ public:
                 curr->children[c] = new TrieNode();
             }
             curr = curr->children[c];
+            
         }
-        curr->isKey = true;
+        
+        if (!curr->isKey) {
+            totalWords++;
+            curr->isKey = true;
+        }
+        curr->freq++;
     }
     
     bool search(string word) {
@@ -44,9 +51,12 @@ public:
 private:
     struct TrieNode {
         bool isKey;
+        int freq;
         unordered_map<char, TrieNode*> children;
-        TrieNode() : isKey(false), children(10) {}
+
+        TrieNode() : isKey(false), freq(0), children(10) {}
     };
 
     TrieNode* root;
+    int totalWords;
 };
