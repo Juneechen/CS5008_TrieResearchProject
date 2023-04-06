@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <unordered_map>
 using namespace std;
 
@@ -62,6 +63,20 @@ public:
         cout << "\n";
     }
 
+    vector<string> getAllWithPrefix(string prefix) {
+        vector<string> res;
+        TrieNode* curr = root;
+        for (char c : prefix) {
+            c = tolower(c);
+            if (curr->children.find(c) == curr->children.end()) {
+                return res;
+            }
+            curr = curr->children[c];
+        }
+        getAllWithPrefixHelper(res, curr, prefix);
+        return res;
+    }
+
 private:
     struct TrieNode {
         bool isWord;
@@ -80,12 +95,21 @@ private:
     TrieNode* root;
     int totalWords;
 
-    void printNode(Trie::TrieNode * curr, string prefix) {
+    void printNode(TrieNode * curr, string prefix) {
         if (curr->isWord) {
             cout << prefix << "\tfrequency: " << curr->freq << endl;
         }
         for (auto each : curr->children) {
             printNode(each.second, prefix + each.first);
+        }
+    }
+
+    void getAllWithPrefixHelper(vector<string>& res, TrieNode* curr, string prefix) {
+        if (curr->isWord) {
+            res.push_back(prefix);
+        }
+        for (auto each : curr->children) {
+            getAllWithPrefixHelper(res, each.second, prefix + each.first);
         }
     }
 };
@@ -103,6 +127,14 @@ int main() {
     myTrie.insert("bad");
 
     myTrie.print();
+
+    vector<string> words = myTrie.getAllWithPrefix("a");
+
+    cout << words.size();
+
+    for (string each : words) {
+        cout << each << endl;
+    } 
 
     return 0;
 }
