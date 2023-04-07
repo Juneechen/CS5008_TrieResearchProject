@@ -57,7 +57,7 @@ The most common application of Tries is autocomplete. Additionaly, a priority va
 - call a method that return strings with a given prefix as we type
 - display the 10 strings with top priority, which can be optimized by using a priority queue
 
-
+Trie can albe be used for efficient IP routing, as discuss in this [paper] on the Implementation of a Trie-based Scheme for Fast IP Lookup.
 
 ## Implementation
 - What language did you use?
@@ -75,8 +75,6 @@ The above code shows a special syntax called an initialization list, which is us
 
 
 ### Key Implementation Decisions
- 
-
 The underlaying structure for mapping a node represeing one char to its collection of children is one of the most important decisions in implemention a Trie, as it greatly affects the operation performance and space required in handling large data set with Trie.   
 
 One way of implementing the children collection is with Arrays, which are fixed-sized in C++. For a Trie to support all ASCII charaters, the array should be declared to have size 128. For a Trie to support only lower-case English alphabets, the array should be declared to have size 26. Below is an example an array-based `TrieNode` from the [Introduction_to_Trie] from GeeksForGeeks:
@@ -93,31 +91,43 @@ The value of the character itself is omited from the `TrieNode` as it is represe
 ```
     p->children[c]
 ```
-One disadvantage of using a fixed size array in a Trie to represent children is that it can waste memory when the Trie is sparse, and take up too much memory when a large set of vocabularies is stored, as every single charater/node will have a pre-allocated array to accommodate the maximum number of possible children. One advantage of using arrays is that it will be easy to retrieve all stored word in sorted alphabetical order.
+One disadvantage of using a fixed size array in a Trie to represent children is that it can waste memory when the Trie is sparse. When a Trie is designed to 26 letters (a-z), but the actual words inserted into the Trie use only a subset of these letters, then most of the slots in the array will be unused, resulting in wasted memory. This also results in increased memory usage when a large set of vocabularies is stored, as every single node will have a pre-allocated array to accommodate the maximum number of possible children. One advantage of using arrays is that it will be easy to retrieve all stored word in sorted alphabetical order.  
 
-I explored other options for representing children nodes
+I studied and learned from the GeeksForGeeks, and for the purpose of exercise, I explored other options for representing children nodes. I eventually implemented my TrieNode differenly using the C++ hashmap from the `<unordered_map>` library as such: 
+```
+struct TrieNode {
+        bool isWord;
+        int freq;
+        unordered_map<char, TrieNode*> children;
 
-I studied and learned from the GeeksForGeeks, adn for the purpose of exercise, I explored other options for representing children nodes. I tried implementing my TrieNode differenly using a the C++ built-in hashmap
+        TrieNode() : isWord(false), freq(0), children(10) {}
+        ~TrieNode();
+};
+```
+Hash map is a more dynamic structure comparing to array. It allows for more efficient memory usage and dynamic adjustment for the number of children as needed. The above map is initialized with 10 buckets, however that is not fixed, it will get resized once it reaches a certain load factor as determined by the `<unordered_map>` library. A hashmap-based Trie takes up less space, as it will not have un-used links pointing to `null` for non-existing children. However, it can be slower in performance due to the overhead from setting up the hashmap and computing hash value. Moreover, it does not maintain an alphebetical order for the nodes. 
 
 
 ### Main Functionalities Code Walk-through
+
 
 ### Extra Functionality
 As I finished implementing the basic operations that should be supported by a Trie, I continued to explore extra functionalities.
 
 ## Summary
-- Provide a summary of your findings
-- What did you learn?
+Tries are a powerful data structure for storing and processing strings, with applications in various fields, such as text editors, IP routers, search engines, and more. Trie's operations are faster than some of its alternatives such as BST or Hash Table in theory, however, the ability to process strings character by charter is the top reason why Tries are useful.
+Trie's performance and memory usage dependent on the concrete implementation used for its char-to-children mapping. There are various options, each comes with its own advantages and limitations, and there is likely no best choice. Some options are more flexible, however, they may come with their own overhead. The choice of data structure to represent children in a Trie depends on the specific requirements and constraints of the application. Factors such as whether the Trie will be relatetively stable or dynamic, and whether the order of keys is important, should all be taken into account when making the implementation decision. I've learned that it is always important to carefully consider the trade-offs between memory usage, performance, and flexibility when chooseing the concrete implementation for an abstract representation. 
 
 ## Reference
 - https://brilliant.org/wiki/tries/
 - https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/TST.html
 - https://www.toptal.com/java/the-trie-a-neglected-data-structure
 - https://www.learncpp.com/cpp-tutorial/class-code-and-header-files/
+- https://www.lewuathe.com/longest-prefix-match-with-trie-tree.html
 
 <!-- auto references -->
 [Trie]: https://en.wikipedia.org/wiki/Trie
 [Introduction_to_Trie]: https://www.geeksforgeeks.org/introduction-to-trie-data-structure-and-algorithm-tutorials/
 [measure_execution_time]: https://www.geeksforgeeks.org/measure-execution-time-with-high-precision-in-c-c/
+[paper]: https://web.njit.edu/~rojasces/publications/08iberchipiplookup.pdf
 [timer.cpp]: ./timer.cpp
 [runtime_graph]: ./trie_runtime_grapg.png
