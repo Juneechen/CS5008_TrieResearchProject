@@ -1,7 +1,4 @@
 #include <iostream>
-#include <string>
-#include <vector>
-#include <unordered_map>
 #include "Trie.h"
 
 using namespace std;
