@@ -1,4 +1,6 @@
-#include <iostream>
+#ifndef TRIE_H
+#define TRIE_H
+
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -33,3 +35,4 @@ private:
     void getAllWithPrefixHelper(vector<string>& res, TrieNode* curr, string prefix);
 };
 
+#endif
