@@ -5,28 +5,41 @@ Topic: Trie (prefix tree) data structure
 Link The Repository: https://github.com/Spring23-CS5008-BOS-Lionelle/research-project-Juneechen.git 
 
 ## Introduction
-This report looks at the fundamental concepts of the Trie data structure and its application. [Trie], also known as prefix tree or digital tree, is a data structure used for storing and retrieving sequence of symbols from within a set. The sequence of symbols could be binary bits or ASCII characters. The idea of a trie was first abstractly described by Axel Thue in 1912, and later independently described by Edward Fredkin in 1960. Its name came from the word 'Retrieval' but it is now most often pronounced as /ˈtraɪ/. Tries are commonly used to solve problems involve searching, spell checking, autocompletion, and other text processing operations. The rest of this report on Trie will discuss its implementation details, time and space complexity, and some use cases. Additionaly, the advantages and limitations of Trie will be discussed in comparison with other data structures.
+This report provides an overview of the Trie data structure and its practical applications. [Trie], also known as prefix tree or digital tree, is a data structure used for storing and retrieving sequences of symbols from within a set. The sequence of symbols could be binary bits or ASCII characters. The concept of a Trie was first described abstractly by Axel Thue in 1912, and later independently described by Edward Fredkin in 1960. Although it was originally named after the word 'retrieval', it is now most commonly pronounced as /ˈtraɪ/ (try). Tries are commonly used to solve problems that involve searching, spell checking, autocompletion, and other text processing operations. This report will discuss the implementation details, time and space complexity, and some use cases of Tries. Additionaly, the advantages and limitations of Trie will be discussed in comparison with other data structures.
 
 ## Analysis of Algorithm/Datastructure
-Make sure to include the following:
-- Time Complexity
-- Space Complexity
-- General analysis of the algorithm/datastructure    
+A Trie is a type of k-nary tree with one root node,which has a collection of children nodes, each representing a character with its own children. Each node in the Trie has a boolean value indicating whether it represents the end of a word. The time and space complexity of the Trie data structure will be discussed in this section, with the results presented in the following chart representing their Big O values: 
 
-A Trie is a type of k-nary tree with one root node, which has a colloection of children nodes, each represents a character with its own children. Each node has a boolean value indicating whether this character is the end of a word. The time and space complexity of Trie will be discussed in this section, with the results presented in the following chart representing their Big O values.  
 | Operation | Time |
 | :-- | :-- | 
 | insert | $O(1)$ |
 | contains / search | $O(1)$ |
-| startWith / prefix search | $O(N+L)$ |
+| getAllWithPrefix | $O(K+P)$ |
 | print | $O(N)$ |
+| Space | $O(N*R)$ |
 
-The above complexity is for Tries using fixed size arrays to represent children nodes. The constant runtime is actually $O(L)$ where `L` is the length of the string. Since the `L` is not growing with the number of strings in the Trie, these operations can be said to have $O(1)$ constant runtime.
+The above time complexity analysis is for an array-based Trie implementation.   
+The operations `insert` and `contains` have constant runtime because, starting from the root, we always know where the next character goes, and the number of nodes to traverse is always `L`, the length of the string. Since `L` is not growing with the number of strings in the Trie, these operations can be said to have $O(1)$ constant runtime.  
+The `getAllWithPrefix` operation has a time complexity of $O(K+P)$, where `K` is the number of strings with the prefix and P is the length of the prefix. This is because to get from the root to the end of the prefix, `P` nodes will be traversed. After that, each of the `K`children will be visited, giving a total of $O(K+P)$ runtime, which is linear.   
+The `print` operation has a time complexity of $O(N)$, where `N` is the number of nodes in the Trie. This is because for all the strings stored in the Trie be printed out, every single node will be visited exactly once.
+
+When it comes to space complexity, an array-based Trie requires $O(N*R)$ space, where `N`is the number of nodes presented, and `R` is the number of different `char` supported by the implementation. This is because each of the `N` nodes will have an array of size `R` reserved for all possible children.
+
+Overall, Trie operations are efficient, but the structure can take up a lot of space. The Trie data structure displays a clear trade-off between time and space.
+
 
 ## Empirical Analysis
-- What is the empirical analysis?
-- Provide specific examples / data.
+To evaluate the performance of the Trie implementation in practice, a script was developed to measure the execution time of each function, with the help from this guide to [measure_execution_time].
 
+This script [timer.cpp] measures the time taken for different Trie operations with Trie sizes ranging from $n = 1$ to $n = 10000$
+
+It first sets up a `vector` of $10000$ random 10-letter `string`, and then loops over `n` from $1$ to $10000$ with a step of $10$. In each iteration, it inserts the first $n-1$ strings from the `vector` into a new `Trie` object. Then, it measures the time taken to insert the $n^{th}$ string, and to perform perform one operation for each of the main functionalities.
+
+The duration of each operations is measured in `nanosecond` using the `chrono` library, as Trie operations are really fast and even `microsecond` did not provide enough precision for some durations. The results are then written to a CSV file named `"runtime.csv"`, and a graph is generated to visualize the Trie's performance:  
+
+![runtime_graph]
+
+As shown in the above graph, the runtime of `insert`, `search`, and `startWith` operations does not growth as the Trie size increases, displaying a constant runtime consistent with their Big O runtime of $O(1)$. The `getAllWithPrefix` operation exhibits a linear growth with the Trie size, as expected from its linear Big O runtime of $O(K+L)$ where $K$ is the number of strings with that prefix.
 
 ## Application
 - What is the algorithm/datastructure used for?
@@ -100,8 +113,11 @@ As I finished implementing the basic operations that should be supported by a Tr
 - https://brilliant.org/wiki/tries/
 - https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/TST.html
 - https://www.toptal.com/java/the-trie-a-neglected-data-structure
-
+- https://www.learncpp.com/cpp-tutorial/class-code-and-header-files/
 
 <!-- auto references -->
 [Trie]: https://en.wikipedia.org/wiki/Trie
 [Introduction_to_Trie]: https://www.geeksforgeeks.org/introduction-to-trie-data-structure-and-algorithm-tutorials/
+[measure_execution_time]: https://www.geeksforgeeks.org/measure-execution-time-with-high-precision-in-c-c/
+[timer.cpp]: ./timer.cpp
+[runtime_graph]: ./trie_runtime_grapg.png
