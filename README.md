@@ -133,4 +133,4 @@ Trie's performance and memory usage dependent on the concrete implementation use
 [paper]: https://web.njit.edu/~rojasces/publications/08iberchipiplookup.pdf
 [timer.cpp]: ./timer.cpp
 [runtime_graph]: ./trie_runtime_grapg.png
-[trie.png]: ./trie.png
+[Trie.png]: ./Trie.png
