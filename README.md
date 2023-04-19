@@ -68,14 +68,15 @@ Trie can also be used for efficient [IP Routing], which stands for Internet Prot
 In [this paper] titled "Fast Table-Update Scheme and Implementation of a Trie-based Scheme for Fast IP Lookup", the authors describe a routing table represented as a Trie, where each node represents a partial IP address prefix. By traversing down the Trie with each bit of the IP address, the longest matching prefix can be found, which represents the network to which the IP address belongs. The paper explains how Tries enable fast address lookups and reduced number of memory accesses required for each lookup. Overall, Tries enables fast and accurate IP address lookups, which is essential for efficient network routing.
 
 ## Implementation
-Note: command `make` is setup to make executable `testTrie.out` and `timer.out`.    
+Note: command `make` is setup to make executable `testTrie.out` and `timer.out`.     
+
 [Trie.h]:       struct `Trie` and `TrieNode` declaration.    
 [Trie.cpp]:     provides actual implementation for all methods from the `Trie` and `TrieNode` struct.    
 [testTrie.cpp]: a simple test use of my Trie implementation.    
 [makefile]:     capable of making executable `testTrie.out` and `timer.out`.    
 
 ### Language
-I chose to use C++ to for my Trie implementation, as my initial implementation was relatively simple and I wanted to take on this challenge of using a language I am not familiar with. Since my Trie implementation is used to store Strings, the `<string>` library is used. The initial challenge I faced was learning C++, which differs from C in syntax and its use of classes and objects. Here is an example of the constructor for the TrieNode struct:
+I chose to use C++ for my Trie implementation, as my initial implementation was relatively simple and I wanted to take on this challenge of using a language I am not familiar with. Since my Trie implementation is used to store Strings, the `<string>` library is used. The initial challenge I faced was learning C++, which differs from C in syntax and its use of classes and objects. Here is an example of the constructor for the TrieNode struct:
 ```
     TrieNode() : isKey(false), children(10) {} // constructor
 ```
@@ -85,6 +86,7 @@ The above code shows a special syntax called an initialization list, which is us
 ### Key Implementation Decisions
 The underlaying structure for mapping a node representing one char to its collection of children is one of the most important decisions in implemention a Trie, as it greatly affects the operation performance and space required in handling large data set with Trie.   
 
+### array-based children
 One way of implementing the children collection is with Arrays, which are fixed-sized in C++. For a Trie to support all ASCII charaters, the array should be declared to have size 128. For a Trie to support only lower-case English alphabets, the array should be declared to have size 26. Below is an example an array-based `TrieNode` from the [Introduction to Trie] from GeeksForGeeks:
 ```
 struct TrieNode {
@@ -101,7 +103,8 @@ The value of the character itself is omited from the `TrieNode` as it is represe
 ```
 One disadvantage of using a fixed size array in a Trie to represent children is that it can waste memory when the Trie is sparse. When a Trie is designed to 26 letters (a-z), but the actual words inserted into the Trie use only a subset of these letters, then most of the slots in the array will be unused, resulting in wasted memory. This also results in increased memory usage when a large set of vocabularies is stored, as every single node will have a pre-allocated array to accommodate the maximum number of possible children. One advantage of using arrays is that it will be easy to retrieve all stored word in sorted alphabetical order.  
 
-I studied and learned from this [Introduction_to_Trie] on GeeksForGeeks, and for the purpose of exercise, I explored other options for representing children nodes. I eventually implemented my TrieNode differenly using the C++ hashmap from the `<unordered_map>` library as such: 
+### hashmap-based children
+I studied and learned from the [Introduction to Trie] on GeeksForGeeks, and for the purpose of exercise, I explored other options for representing children nodes. I eventually implemented my TrieNode differenly using the C++ hashmap from the `<unordered_map>` library as such: 
 ```
 struct TrieNode {
         bool isWord;
@@ -113,7 +116,6 @@ struct TrieNode {
 };
 ```
 Hash map is a more dynamic structure comparing to array. It allows for more efficient memory usage and dynamic adjustment for the number of children as needed. The above map is initialized with 10 buckets, however that is not fixed, it will get resized once it reaches a certain load factor as determined by the `<unordered_map>` library. A hashmap-based Trie takes up less space, as it will not have un-used links pointing to `null` for non-existing children. However, it can be slower in performance due to the overhead from setting up the hashmap and computing hash value. Moreover, it does not maintain an alphebetical order for the nodes. 
-
 
 ### Main Functionalities Code Walk-through
 The `insert(string word)` and `search(string word)` operations are very similar, both involve the process of traversing down the Trie through each character in the word, by having a `curr` pointer starting from the Trie root and moving through nodes representing the next character.    
@@ -132,6 +134,7 @@ void Trie::insert(string word) {
 }
 ```    
 Note that if `c` is not found, `map.find(c)` returns an iterator pointing to the end of the map, which is represented by `map.end()`; `children[c]` is used to represent the character `c`, as each char is a value in its previous char's children map.   
+
 When all characters in the word has been found, `search` would return true if the last char is marked as the end of a word, false otherwise, while `insert` would simply mark that char as the end of a word and increment its frequency and the total word count if the word was not in the Trie:
 ```
 void Trie::insert(string word) {
