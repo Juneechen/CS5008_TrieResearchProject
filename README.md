@@ -69,7 +69,7 @@ Note: command `make` is setup to make executable `testTrie.out` and `timer.out`.
 [makefile]:     capable of making executable `testTrie.out` and `timer.out`.    
 
 ### Language
-My implementation of Trie is written in C++, as my initial implememtation was relatively simple and I wanted to take up the challenge of trying out a language I'm not familiar with. As my Trie implementation is used to store Strings, the `<string>` library is used. The initial challenge I faced was learning the C++ syntax. It's quite different from C in syntax and the support of class and objects. Below is an example of the `constructor` for `TrieNode` struct:
+I chose to use C++ to for my Trie implementation, as my initial implementation was relatively simple and I wanted to take on this challenge of using a language I am not familiar with. Since my Trie implementation is used to store Strings, the `<string>` library is used. The initial challenge I faced was learning C++, which differs from C in syntax and its use of classes and objects. Here is an example of the constructor for the TrieNode struct:
 ```
     TrieNode() : isKey(false), children(10) {} // constructor
 ```
