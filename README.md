@@ -62,7 +62,7 @@ Trie can also be used for efficient [IP Routing], which stands for Internet Prot
 In [this paper] titled "Fast Table-Update Scheme and Implementation of a Trie-based Scheme for Fast IP Lookup", the authors describe a routing table represented as a Trie, where each node represents a partial IP address prefix. By traversing down the Trie with each bit of the IP address, the longest matching prefix can be found, which represents the network to which the IP address belongs. The paper explains how Tries enable fast address lookups and reduced number of memory accesses required for each lookup. Overall, Tries enables fast and accurate IP address lookups, which is essential for efficient network routing.
 
 ## Implementation
-Note: use terminal command `make` to make the above executables.    
+Note: command `make` is setup to make executables `testTrie.out` and `timer.out`.    
 [Trie.h]:       struct `Trie` and `TrieNode` declaration.    
 [Trie.cpp]:     provides actual implementation for all methods from the `Trie` and `TrieNode` struct.    
 [testTrie.cpp]: a simple test use of my Trie implementation.    
