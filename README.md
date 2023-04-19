@@ -196,5 +196,5 @@ Trie's performance and memory usage dependent on the concrete implementation use
 [testTrie.cpp]: ./testTrie.cpp
 [makefile]: ./makefile
 [timer.cpp]: ./timer.cpp
-[runtime_graph]: ./trie_runtime_grapg.png
+[runtime_graph]: ./trie_runtime_graph.png
 [Trie.png]: ./Trie.png
