@@ -6,7 +6,9 @@ Link The Repository: https://github.com/Spring23-CS5008-BOS-Lionelle/research-pr
 
 ## Introduction
 This report provides an overview of the Trie data structure and its practical applications. [Trie], also known as prefix tree or digital tree, is a data structure used for storing and retrieving sequences of symbols from within a set. The sequence of symbols could be binary bits or ASCII characters.     
+
 The concept of a Trie was first described abstractly by Axel Thue in 1912, and later independently described by Edward Fredkin in 1960. Although it was originally named after the word 'retrieval', it is now most commonly pronounced as /ˈtraɪ/ (try).     
+
 Tries are commonly used to solve problems that involve searching, spell checking, autocompletion, and other text processing operations. This report will discuss the implementation details, time and space complexity, and some use cases of Tries. Additionaly, the advantages and limitations of Trie will be discussed in comparison with other data structures. Below graph shows what a Trie looks like:
 
 ![trie.png]
@@ -23,8 +25,11 @@ A Trie is a type of k-nary tree with one root node,which has a collection of chi
 | Space | $O(N*R)$ |
 
 The above time complexity analysis is for an array-based Trie implementation.   
+
 The operations `insert` and `contains` have constant runtime because, starting from the root, we always know where the next character goes, and the number of nodes to traverse is always `L`, the length of the string. Since `L` is not growing with the number of strings in the Trie, these operations can be said to have $O(1)$ constant runtime.  
+
 The `getAllWithPrefix` operation has a time complexity of $O(K+P)$, where `K` is the number of strings with the prefix and P is the length of the prefix. This is because to get from the root to the end of the prefix, `P` nodes will be traversed. After that, each of the `K`children will be visited, giving a total of $O(K+P)$ runtime, which is linear.   
+
 The `print` operation has a time complexity of $O(N)$, where `N` is the number of nodes in the Trie. This is because for all the strings stored in the Trie be printed out, every single node will be visited exactly once.
 
 When it comes to space complexity, an array-based Trie requires $O(N*R)$ space, where `N`is the number of nodes presented, and `R` is the number of different `char` supported by the implementation. This is because each of the `N` nodes will have an array of size `R` reserved for all possible children.
@@ -59,6 +64,7 @@ The most common application of Tries is [autocomplete]. Additionaly, a priority 
 
 ### IP Routing
 Trie can also be used for efficient [IP Routing], which stands for Internet Protocol Routing, and it involves the process of determining the path to forward packets of data from one netword to another. Routers need to be able to perform IP address lookups quickly to efficiently determine the appropriate network interface through which to forward packets.    
+
 In [this paper] titled "Fast Table-Update Scheme and Implementation of a Trie-based Scheme for Fast IP Lookup", the authors describe a routing table represented as a Trie, where each node represents a partial IP address prefix. By traversing down the Trie with each bit of the IP address, the longest matching prefix can be found, which represents the network to which the IP address belongs. The paper explains how Tries enable fast address lookups and reduced number of memory accesses required for each lookup. Overall, Tries enables fast and accurate IP address lookups, which is essential for efficient network routing.
 
 ## Implementation
@@ -124,7 +130,7 @@ void Trie::insert(string word) {
     }
     ...
 }
-```
+```    
 Note that if `c` is not found, `map.find(c)` returns an iterator pointing to the end of the map, which is represented by `map.end()`; `children[c]` is used to represent the character `c`, as each char is a value in its previous char's children map.   
 When all characters in the word has been found, `search` would return true if the last char is marked as the end of a word, false otherwise, while `insert` would simply mark that char as the end of a word and increment its frequency and the total word count if the word was not in the Trie:
 ```
@@ -140,7 +146,7 @@ void Trie::insert(string word) {
     curr->freq++;
 }
 ```
-Note that each char node's frequency was 0 when it's first created but not marked as the end of a word.
+Note that each char node's frequency was 0 when it's first created but not marked as the end of a word.    
 
 The `getAllWithPrefix` operation recursively finds all words with a given prefix. It does so by first traverse to the ending char of the prefix, then it calls a recursive helper to find all words from children of that ending char:
 ```
@@ -159,7 +165,8 @@ vector<string> Trie::getAllWithPrefix(string prefix) {
     getAllWithPrefixHelper(res, curr, prefix);
     return res;
 }
-```
+```   
+
 The `getAllWithPrefixHelper` traverses through all children till reaching the leaf node, then adds to the result vector whenever it encounters a node mark as the end of a word:
 ```
 getAllWithPrefixHelper(vector<string>& res, TrieNode* curr, string prefix) {
@@ -171,7 +178,7 @@ getAllWithPrefixHelper(vector<string>& res, TrieNode* curr, string prefix) {
     }
 }
 ```
-Note that `.first` represents the key in a hashmap pair, and `.second` represents the value in a hashmap pair. In the above code, `.first` gives the char itself, which is then appended to the prefix, then passed down to the recursive function called on `.second`, which is one of the children node (representing a next char) of the current node.
+Note that `.first` represents the key in a hashmap pair, and `.second` represents the value in a hashmap pair. In the above code, `.first` gives the char itself, which is then appended to the prefix, then passed down to the recursive function called on `.second`, which is one of the children node (representing a next char) of the current node.    
 
 ## Summary
 Tries are a powerful data structure for storing and processing strings, with applications in various fields, such as text editors, IP routers, search engines, and more. Trie's operations are faster than some of its alternatives such as BST or Hash Table in theory, however, the ability to process strings character by charter is the top reason why Tries are useful.    
