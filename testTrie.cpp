@@ -19,7 +19,7 @@ int main() {
 
     vector<string> words = myTrie.getAllWithPrefix("a");
 
-    cout << words.size() << endl;
+    cout << "words with prefix 'a': "<< words.size() << endl;
 
     for (string each : words) {
         cout << each << endl;
