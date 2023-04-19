@@ -5,7 +5,9 @@ Topic: Trie (prefix tree) data structure
 Link The Repository: https://github.com/Spring23-CS5008-BOS-Lionelle/research-project-Juneechen.git 
 
 ## Introduction
-This report provides an overview of the Trie data structure and its practical applications. [Trie], also known as prefix tree or digital tree, is a data structure used for storing and retrieving sequences of symbols from within a set. The sequence of symbols could be binary bits or ASCII characters. The concept of a Trie was first described abstractly by Axel Thue in 1912, and later independently described by Edward Fredkin in 1960. Although it was originally named after the word 'retrieval', it is now most commonly pronounced as /ˈtraɪ/ (try). Tries are commonly used to solve problems that involve searching, spell checking, autocompletion, and other text processing operations. This report will discuss the implementation details, time and space complexity, and some use cases of Tries. Additionaly, the advantages and limitations of Trie will be discussed in comparison with other data structures. Below graph shows what a Trie looks like:
+This report provides an overview of the Trie data structure and its practical applications. [Trie], also known as prefix tree or digital tree, is a data structure used for storing and retrieving sequences of symbols from within a set. The sequence of symbols could be binary bits or ASCII characters.     
+The concept of a Trie was first described abstractly by Axel Thue in 1912, and later independently described by Edward Fredkin in 1960. Although it was originally named after the word 'retrieval', it is now most commonly pronounced as /ˈtraɪ/ (try). Tries are commonly used to solve problems that involve searching, spell checking, autocompletion, and other text processing operations. This report will discuss the implementation details, time and space complexity, and some use cases of Tries. Additionaly, the advantages and limitations of Trie will be discussed in comparison with other data structures.     
+Below graph shows what a Trie looks like:
 
 ![trie.png]
 
