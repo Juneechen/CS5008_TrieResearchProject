@@ -62,11 +62,11 @@ Trie can also be used for efficient [IP Routing], which stands for Internet Prot
 In [this paper] titled "Fast Table-Update Scheme and Implementation of a Trie-based Scheme for Fast IP Lookup", the authors describe a routing table represented as a Trie, where each node represents a partial IP address prefix. By traversing down the Trie with each bit of the IP address, the longest matching prefix can be found, which represents the network to which the IP address belongs. The paper explains how Tries enable fast address lookups and reduced number of memory accesses required for each lookup. Overall, Tries enables fast and accurate IP address lookups, which is essential for efficient network routing.
 
 ## Implementation
-Note: command `make` is setup to make executables `testTrie.out` and `timer.out`.    
+Note: command `make` is setup to make executable `testTrie.out` and `timer.out`.    
 [Trie.h]:       struct `Trie` and `TrieNode` declaration.    
 [Trie.cpp]:     provides actual implementation for all methods from the `Trie` and `TrieNode` struct.    
 [testTrie.cpp]: a simple test use of my Trie implementation.    
-[makefile]:     capable of making executable testTrie.out and timer.out.    
+[makefile]:     capable of making executable `testTrie.out` and `timer.out`.    
 
 ### Language
 My implementation of Trie is written in C++, as my initial implememtation was relatively simple and I wanted to take up the challenge of trying out a language I'm not familiar with. As my Trie implementation is used to store Strings, the `<string>` library is used. The initial challenge I faced was learning the C++ syntax. It's quite different from C in syntax and the support of class and objects. Below is an example of the `constructor` for `TrieNode` struct:
