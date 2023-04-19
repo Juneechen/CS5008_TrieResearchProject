@@ -86,7 +86,7 @@ The above code shows a special syntax called an initialization list, which is us
 ### Key Implementation Decisions
 The underlaying structure for mapping a node representing one char to its collection of children is one of the most important decisions in implemention a Trie, as it greatly affects the operation performance and space required in handling large data set with Trie.   
 
-**array-based children**
+**array-based children**    
 One way of implementing the children collection is with Arrays, which are fixed-sized in C++. For a Trie to support all ASCII charaters, the array should be declared to have size 128. For a Trie to support only lower-case English alphabets, the array should be declared to have size 26. Below is an example an array-based `TrieNode` from the [Introduction to Trie] from GeeksForGeeks:
 ```
 struct TrieNode {
@@ -103,7 +103,7 @@ The value of the character itself is omited from the `TrieNode` as it is represe
 ```
 One disadvantage of using a fixed size array in a Trie to represent children is that it can waste memory when the Trie is sparse. When a Trie is designed to 26 letters (a-z), but the actual words inserted into the Trie use only a subset of these letters, then most of the slots in the array will be unused, resulting in wasted memory. This also results in increased memory usage when a large set of vocabularies is stored, as every single node will have a pre-allocated array to accommodate the maximum number of possible children. One advantage of using arrays is that it will be easy to retrieve all stored word in sorted alphabetical order.  
 
-**hashmap-based children**
+**hashmap-based children**    
 I studied and learned from the [Introduction to Trie] on GeeksForGeeks, and for the purpose of exercise, I explored other options for representing children nodes. I eventually implemented my TrieNode differenly using the C++ hashmap from the `<unordered_map>` library as such: 
 ```
 struct TrieNode {
