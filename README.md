@@ -2,7 +2,7 @@
 Name: Shujun Chen   
 Semester: 23 Fall   
 Topic: Trie (prefix tree) data structure     
-Link The Repository: https://github.com/Spring23-CS5008-BOS-Lionelle/research-project-Juneechen.git 
+Github Classroom Assignment Repository: https://github.com/Spring23-CS5008-BOS-Lionelle/research-project-Juneechen.git 
 
 ## Introduction
 This report provides an overview of the Trie data structure and its practical applications. [Trie], also known as prefix tree or digital tree, is a data structure used for storing and retrieving sequences of symbols from within a set. The sequence of symbols could be binary bits or ASCII characters.     
